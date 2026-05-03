@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Knowledge Assistant — Technical Manual QA</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════ LANDING PAGE ═══════════════════════ -->
+  <section id="landing" class="landing">
+
+    <!-- Animated background grid -->
+    <div class="bg-grid"></div>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
+    <!-- Nav -->
+    <nav class="landing-nav">
+      <div class="nav-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">AXON<span class="logo-accent">.AI</span></span>
+      </div>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="theme-icon">◑</span>
+        </button>
+        <button class="nav-cta" onclick="launchApp()">Launch App</button>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        RAG-Simulated Knowledge Engine · v2.4
+      </div>
+
+      <h1 class="hero-title">
+        <span class="title-line-1">AI Knowledge</span>
+        <span class="title-line-2">Assistant</span>
+      </h1>
+
+      <p class="hero-sub">
+        Ask anything from complex technical manuals.<br />
+        Instant answers with source citations, confidence scores &amp; cross-references.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-chip">
+          <span class="stat-num">12</span>
+          <span class="stat-label">Sections</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-chip">
+          <span class="stat-num">340+</span>
+          <span class="stat-label">Topics</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-chip">
+          <span class="stat-num">9</span>
+          <span class="stat-label">TRL Levels</span>
+        </div>
+      </div>
+
+      <button class="cta-btn" onclick="launchApp()">
+        <span class="cta-text">Start Chat</span>
+        <span class="cta-arrow">→</span>
+      </button>
+
+      <div class="hero-preview">
+        <div class="preview-card glass">
+          <div class="preview-header">
+            <span class="preview-dot red"></span>
+            <span class="preview-dot yellow"></span>
+            <span class="preview-dot green"></span>
+            <span class="preview-title">AXON Knowledge Interface</span>
+          </div>
+          <div class="preview-body">
+            <div class="preview-msg user-msg">What is TRL 6 and what does it require?</div>
+            <div class="preview-msg ai-msg">
+              <span class="ai-badge">AI</span>
+              TRL 6 — <em>System/Subsystem Model or Prototype Demonstration</em> — requires a representative model or prototype system tested in a relevant environment. NASA defines this as validating engineering feasibility...
+              <div class="preview-source">§ 4.2 · Page 87 · Confidence 94%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="features">
+      <div class="feature-card glass">
+        <div class="feature-icon">◎</div>
+        <h3>Smart Retrieval</h3>
+        <p>Multi-section keyword matching with context merging and relevance scoring.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="feature-icon">⌖</div>
+        <h3>Source Citations</h3>
+        <p>Every answer shows section, page number, and confidence percentage.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="feature-icon">⟆</div>
+        <h3>Acronym Expansion</h3>
+        <p>Automatically expands TRL, SE, CDR, PDR and 40+ technical acronyms.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="feature-icon">⊞</div>
+        <h3>Cross-References</h3>
+        <p>Related sections surface automatically alongside each answer.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════ CHAT APP ═══════════════════════ -->
+  <section id="app" class="app hidden">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="nav-logo">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">AXON<span class="logo-accent">.AI</span></span>
+        </div>
+        <button class="icon-btn" id="sidebarClose" aria-label="Close sidebar">✕</button>
+      </div>
+
+      <!-- New Chat -->
+      <button class="new-chat-btn" onclick="newChat()">
+        <span>＋</span> New Session
+      </button>
+
+      <!-- Chat history -->
+      <div class="history-section">
+        <div class="section-label">Recent Sessions</div>
+        <div id="chatHistory" class="chat-history-list"></div>
+      </div>
+
+      <!-- Sections nav -->
+      <div class="history-section">
+        <div class="section-label">Manual Sections</div>
+        <div class="sections-nav" id="sectionsNav"></div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle-full" id="themeToggleApp">
+          <span class="theme-icon" id="themeIconApp">◑</span>
+          <span id="themeLabel">Dark Mode</span>
+        </button>
+        <button class="nav-back" onclick="backToLanding()">← Home</button>
+      </div>
+    </aside>
+
+    <!-- Main chat area -->
+    <main class="chat-main">
+
+      <!-- Top bar -->
+      <header class="chat-header">
+        <button class="icon-btn" id="sidebarOpen" aria-label="Open sidebar">☰</button>
+        <div class="chat-title">
+          <span id="chatSessionTitle">New Session</span>
+          <span class="chat-status"><span class="status-dot"></span>Knowledge base active</span>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" title="Clear chat" onclick="clearChat()">⊘</button>
+          <button class="theme-toggle" id="themeToggleChat" aria-label="Toggle theme">
+            <span class="theme-icon" id="themeIconChat">◑</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Messages -->
+      <div class="messages-container" id="messagesContainer">
+        <div class="welcome-state" id="welcomeState">
+          <div class="welcome-icon">⬡</div>
+          <h2>Ask me anything</h2>
+          <p>I have deep knowledge of the NASA Systems Engineering Handbook and technical standards. Try one of these:</p>
+          <div class="suggestion-chips" id="suggestionChips"></div>
+        </div>
+      </div>
+
+      <!-- Input area -->
+      <div class="input-area">
+        <div class="search-suggestions" id="searchSuggestions"></div>
+        <div class="input-wrapper glass">
+          <textarea
+            id="chatInput"
+            class="chat-input"
+            placeholder="Ask a technical question…"
+            rows="1"
+            autocomplete="off"
+          ></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send">
+            <span class="send-icon">↑</span>
+          </button>
+        </div>
+        <div class="input-footer">
+          Powered by local RAG simulation · No data leaves your browser
+        </div>
+      </div>
+
+    </main>
+
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
